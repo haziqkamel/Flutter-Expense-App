@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -56,58 +58,61 @@ class _NewTransactionState extends State<NewTransaction> {
       elevation: 5,
       child: Container(
         padding: EdgeInsets.all(2),
-        child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                ),
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
+        child: SingleChildScrollView(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            TextField(
+              // selectionHeightStyle: BoxHeightStyle.tight,
+              // scrollPadding: EdgeInsets.all(2),
+              decoration: InputDecoration(
+                labelText: 'Title',
               ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                ),
-                controller: _amountController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) => _submitData(),
+              controller: _titleController,
+              onSubmitted: (_) => _submitData(),
+            ),
+            TextField(
+              // scrollPadding: EdgeInsets.all(2),
+              // selectionHeightStyle: BoxHeightStyle.tight,
+              decoration: InputDecoration(
+                labelText: 'Amount',
               ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _selectedDate == null
-                            ? 'No Date Chosen!'
-                            : 'Picked Date:  ${DateFormat.yMd().format(_selectedDate)}',
-                      ),
+              controller: _amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => _submitData(),
+            ),
+            Container(
+              height: 30,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No Date Chosen!'
+                          : 'Picked Date:  ${DateFormat.yMd().format(_selectedDate)}',
                     ),
-                    TextButton(
-                      onPressed: _presentDatePicker,
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.amber),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  TextButton(
+                    onPressed: _presentDatePicker,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.amber),
+                    ),
+                  )
+                ],
               ),
-              ElevatedButton(
-                onPressed: _submitData,
-                child: Text('Add Transaction'),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.black),
-                  backgroundColor: MaterialStateProperty.all(Colors.amber),
-                ),
+            ),
+            ElevatedButton(
+              onPressed: _submitData,
+              child: Text('Add Transaction'),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.black),
+                backgroundColor: MaterialStateProperty.all(Colors.amber),
               ),
-            ]),
+            ),
+          ]),
+        ),
       ),
     );
   }
