@@ -1,5 +1,6 @@
-import 'dart:ui';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -60,6 +61,7 @@ class _NewTransactionState extends State<NewTransaction> {
         padding: EdgeInsets.all(2),
         child: SingleChildScrollView(
           child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            //CupertinoTextField(),
             TextField(
               // selectionHeightStyle: BoxHeightStyle.tight,
               // scrollPadding: EdgeInsets.all(2),
@@ -90,16 +92,28 @@ class _NewTransactionState extends State<NewTransaction> {
                           : 'Picked Date:  ${DateFormat.yMd().format(_selectedDate)}',
                     ),
                   ),
-                  TextButton(
-                    onPressed: _presentDatePicker,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.amber),
-                    ),
-                  )
+                  Platform.isIOS
+                      ? CupertinoButton(
+                          //color: Colors.amber,
+                          onPressed: _presentDatePicker,
+                          child: Text(
+                            'Add Transaction',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: _presentDatePicker,
+                          child: Text(
+                            'Choose Date',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.amber),
+                          ),
+                        )
                 ],
               ),
             ),
