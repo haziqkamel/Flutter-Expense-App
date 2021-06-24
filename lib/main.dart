@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Personal Expenses',
       theme: ThemeData(
           primarySwatch: Colors.amber,
-          accentColor: Colors.amber,
+          accentColor: Colors.white,
           fontFamily: 'Quicksand',
           //errorColor: Colors.red,
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -51,7 +51,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [
     // Transaction(
     //   id: 't1',
@@ -66,6 +66,22 @@ class _MyHomePageState extends State<MyHomePage> {
     //   dateTime: DateTime.now(),
     // )
   ];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  void didChangeAppLifecyleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -116,9 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final PreferredSizeWidget appBar = Platform.isIOS
+  Widget _buildAppBar() {
+    return Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text('Personal Expenses'),
             trailing: Row(
@@ -145,6 +160,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final PreferredSizeWidget appBar = _buildAppBar();
 
     final pageBody = SafeArea(
         child: SingleChildScrollView(
